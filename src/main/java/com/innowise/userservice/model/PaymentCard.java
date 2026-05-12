@@ -1,4 +1,4 @@
-package user_service.user_service.model;
+package com.innowise.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
