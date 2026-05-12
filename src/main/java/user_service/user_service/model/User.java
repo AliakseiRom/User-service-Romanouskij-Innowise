@@ -36,5 +36,5 @@ public class User {
     private boolean active;
 
     @OneToMany(mappedBy = "user")
-    private List<PaymentCards> paymentCards = new ArrayList<>();
+    private List<PaymentCard> paymentCards = new ArrayList<>();
 }
