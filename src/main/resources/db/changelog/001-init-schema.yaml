@@ -1,0 +1,134 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Aliaksei
+
+      changes:
+
+        - createTable:
+            tableName: users
+
+            columns:
+
+              - column:
+                  name: id
+                  type: BIGSERIAL
+
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: surname
+                  type: VARCHAR(255)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: birth_date
+                  type: DATE
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: active
+                  type: BOOLEAN
+
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: users
+            indexName: idx_users_email
+
+            columns:
+              - column:
+                  name: email
+
+  - changeSet:
+      id: 2
+      author: alex
+
+      changes:
+
+        - createTable:
+            tableName: payment_cards
+
+            columns:
+
+              - column:
+                  name: id
+                  type: BIGSERIAL
+
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: BIGINT
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: number
+                  type: VARCHAR(19)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: holder
+                  type: VARCHAR(255)
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: expiration_date
+                  type: DATE
+
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: active
+                  type: BOOLEAN
+
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: payment_cards
+            baseColumnNames: user_id
+
+            referencedTableName: users
+            referencedColumnNames: id
+
+            constraintName: fk_payment_cards_user
+
+        - createIndex:
+            tableName: payment_cards
+            indexName: idx_payment_cards_user_id
+
+            columns:
+              - column:
+                  name: user_id

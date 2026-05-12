@@ -5,9 +5,11 @@ spring:
     url: "jdbc:postgresql://localhost:5432/user_service"
     username: "postgres"
     password: "12345"
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: "org.hibernate.dialect.PostgreSQLDialect"
