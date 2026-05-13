@@ -3,11 +3,12 @@ package com.innowise.userservice.dto;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class UserResponseDto {
+public class UserResponseDto implements Serializable {
 
     private Long id;
 
