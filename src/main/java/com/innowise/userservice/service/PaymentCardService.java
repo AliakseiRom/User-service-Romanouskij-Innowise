@@ -32,7 +32,7 @@ public class PaymentCardService {
         User user = userRepository.findById(paymentCardRequestDto.getUserId()).get();
 
         long countCards = paymentCardRepository.countByUserId(user.getId());
-
+        
         if (countCards > 5) {
             throw new PaymentCardLimitExceededException("User cannot have more than 5 cards");
         }
