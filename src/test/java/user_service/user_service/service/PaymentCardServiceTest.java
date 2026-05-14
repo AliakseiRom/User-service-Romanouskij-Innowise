@@ -1,4 +1,4 @@
-package user_service.user_service.paymentCardTest;
+package user_service.user_service.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,6 @@ import user_service.user_service.model.PaymentCard;
 import user_service.user_service.model.User;
 import user_service.user_service.repository.PaymentCardRepository;
 import user_service.user_service.repository.UserRepository;
-import user_service.user_service.service.PaymentCardService;
 
 import java.time.LocalDate;
 import java.util.List;
