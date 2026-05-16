@@ -92,4 +92,9 @@ public class UserService {
         }
         return null;
     }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }

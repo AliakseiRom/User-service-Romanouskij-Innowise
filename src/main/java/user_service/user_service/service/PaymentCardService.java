@@ -100,4 +100,9 @@ public class PaymentCardService {
 
         return paymentCardMapper.toDto(card);
     }
+
+    @Transactional
+    public void deleteCard(Long id) {
+        paymentCardRepository.deleteById(id);
+    }
 }
