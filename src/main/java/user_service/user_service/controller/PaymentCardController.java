@@ -61,4 +61,10 @@ public class PaymentCardController {
     public ResponseEntity<PaymentCardResponseDto> deactivatePaymentCard(@PathVariable Long id) {
         return new ResponseEntity<>(paymentCardService.deactivateCard(id), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePaymentCard(@PathVariable Long id) {
+        paymentCardService.deleteCard(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

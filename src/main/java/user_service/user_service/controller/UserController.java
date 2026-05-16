@@ -61,4 +61,10 @@ public class UserController {
         UserResponseDto userResponseDto = userService.deactivateUser(id);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
