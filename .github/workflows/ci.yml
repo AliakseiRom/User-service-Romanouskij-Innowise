@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+      - feature/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build
+        run: mvn clean package
+
+      - name: Tests
+        run: mvn test
+
+      - name: SonarQube
+        run: mvn sonar:sonar
+
+      - name: Docker build
+        run: docker build -t user-service .
