@@ -4,6 +4,7 @@ import com.innowise.userservice.model.PaymentCard;
 import com.innowise.userservice.model.User;
 import com.innowise.userservice.repository.PaymentCardRepository;
 import com.innowise.userservice.repository.UserRepository;
+import com.innowise.userservice.exceptions.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ public class PaymentCardService {
         long countCards = paymentCardRepository.countByUserId(user.getId());
 
         if (countCards > 5) {
-            throw new RuntimeException("User cannot have more than 5 cards");
+            throw new PaymentCardLimitExceededException("User cannot have more than 5 cards");
         }
 
         PaymentCard paymentCard = paymentCardMapper.toEntity(paymentCardRequestDto);
@@ -42,8 +43,13 @@ public class PaymentCardService {
     }
 
     public PaymentCardResponseDto getPaymentCardById(Long id) {
-        PaymentCard paymentCard = paymentCardRepository.findById(id).get();
-        return paymentCardMapper.toDto(paymentCard);
+        Optional<PaymentCard> paymentCard = paymentCardRepository.findById(id);
+
+        if(paymentCard.isEmpty()) {
+            throw new EntityNotFoundException("Payment card with id " + " not found");
+        }
+
+        return paymentCardMapper.toDto(paymentCard.get());
     }
 
     public Page<PaymentCardResponseDto> getAllCards(
@@ -59,6 +65,11 @@ public class PaymentCardService {
             Pageable pageable
     ) {
 
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + userId + " not found");
+        }
+
         return paymentCardRepository
                 .findByUserId(userId, pageable)
                 .map(paymentCardMapper::toDto);
@@ -71,40 +82,55 @@ public class PaymentCardService {
     ) {
 
         Optional<PaymentCard> cardOptional = paymentCardRepository.findById(id);
+        if (cardOptional.isEmpty()) {
+            throw new EntityNotFoundException("Payment card with id " + id + " not found");
+        }
         PaymentCard card = paymentCardMapper.toEntity(dto);
 
-        if (cardOptional.isPresent()) {
-            PaymentCard cardToUpdate = cardOptional.get();
-            cardToUpdate.setNumber(dto.getNumber());
-            cardToUpdate.setHolder(dto.getHolder());
-            cardToUpdate.setExpirationDate(dto.getExpirationDate());
-            cardToUpdate.setActive(dto.isActive());
-            return paymentCardMapper.toDto(cardToUpdate);
-        }
+        PaymentCard cardToUpdate = cardOptional.get();
+        cardToUpdate.setNumber(dto.getNumber());
+        cardToUpdate.setHolder(dto.getHolder());
+        cardToUpdate.setExpirationDate(dto.getExpirationDate());
+        cardToUpdate.setActive(dto.isActive());
+        return paymentCardMapper.toDto(cardToUpdate);
 
-        return null;
     }
 
     @Transactional
     public PaymentCardResponseDto activateCard(Long id) {
-        PaymentCard card = paymentCardRepository.findById(id).get();
+        Optional<PaymentCard> card = paymentCardRepository.findById(id);
 
-        card.setActive(true);
+        if(card.isEmpty()) {
+            throw new EntityNotFoundException("Payment card with id " + id + " not found");
+        }
 
-        return paymentCardMapper.toDto(card);
+        PaymentCard cardToActivate = card.get();
+        cardToActivate.setActive(true);
+
+        return paymentCardMapper.toDto(cardToActivate);
     }
 
     @Transactional
     public PaymentCardResponseDto deactivateCard(Long id) {
-        PaymentCard card = paymentCardRepository.findById(id).get();
+        Optional<PaymentCard> card = paymentCardRepository.findById(id);
 
-        card.setActive(false);
+        if(card.isEmpty()) {
+            throw new EntityNotFoundException("Payment card with id " + id + " not found");
+        }
 
-        return paymentCardMapper.toDto(card);
+        PaymentCard cardToActivate = card.get();
+        cardToActivate.setActive(false);
+
+        return paymentCardMapper.toDto(cardToActivate);
     }
 
     @Transactional
     public void deleteCard(Long id) {
+        Optional<PaymentCard> card = paymentCardRepository.findById(id);
+        if(card.isEmpty()) {
+            throw new EntityNotFoundException("Payment card with id " + id + " not found");
+        }
+
         paymentCardRepository.deleteById(id);
     }
 }
