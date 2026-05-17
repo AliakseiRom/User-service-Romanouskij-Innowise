@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
             nativeQuery = true
     )
     Page<User> findAllInactiveUsers(Pageable pageable);
+
+    String findByEmail(String email);
 }
