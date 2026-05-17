@@ -30,4 +30,15 @@ public class RestResponseStatusExceptionResolver {
                 );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PaymentCardLimitExceededException.class)
+    public ResponseEntity<Object> handlePaymentCardLimitExceededException(UserWithEmailAlreadyExists ex, WebRequest request) {
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.BAD_REQUEST.value(),
+                        ex.getMessage(),
+                        request.getDescription(false)
+                );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
 }
