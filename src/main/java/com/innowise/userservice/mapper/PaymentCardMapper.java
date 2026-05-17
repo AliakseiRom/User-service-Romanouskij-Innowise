@@ -1,10 +1,11 @@
-package user_service.user_service.mapper;
+package com.innowise.userservice.mapper;
 
+import com.innowise.userservice.model.PaymentCard;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import user_service.user_service.dto.PaymentCardRequestDto;
-import user_service.user_service.dto.PaymentCardResponseDto;
-import user_service.user_service.model.PaymentCard;
+import com.innowise.userservice.dto.PaymentCardRequestDto;
+import com.innowise.userservice.dto.PaymentCardResponseDto;
+
 
 @Mapper(componentModel = "spring")
 public interface PaymentCardMapper {

@@ -1,26 +1,27 @@
-package user_service.user_service.dto;
+package com.innowise.userservice.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-public class UserRequestDto {
+public class UserResponseDto {
 
-    @NotBlank
+    private Long id;
+
     private String name;
 
-    @NotBlank
     private String surname;
 
-    @NotBlank
     private LocalDate birthDate;
 
-    @Email
-    @NotBlank
     private String email;
 
     private boolean active;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }

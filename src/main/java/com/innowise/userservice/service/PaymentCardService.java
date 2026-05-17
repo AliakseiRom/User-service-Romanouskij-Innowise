@@ -1,17 +1,19 @@
-package user_service.user_service.service;
+package com.innowise.userservice.service;
 
+import com.innowise.userservice.model.PaymentCard;
+import com.innowise.userservice.model.User;
+import com.innowise.userservice.repository.PaymentCardRepository;
+import com.innowise.userservice.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import user_service.user_service.dto.PaymentCardRequestDto;
-import user_service.user_service.dto.PaymentCardResponseDto;
-import user_service.user_service.mapper.PaymentCardMapper;
-import user_service.user_service.model.PaymentCard;
-import user_service.user_service.model.User;
-import user_service.user_service.repository.PaymentCardRepository;
-import user_service.user_service.repository.UserRepository;
+import com.innowise.userservice.dto.PaymentCardRequestDto;
+import com.innowise.userservice.dto.PaymentCardResponseDto;
+import com.innowise.userservice.mapper.PaymentCardMapper;
+
+
 
 import java.util.Optional;
 

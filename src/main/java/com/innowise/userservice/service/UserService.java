@@ -1,17 +1,19 @@
-package user_service.user_service.service;
+package com.innowise.userservice.service;
 
+import com.innowise.userservice.model.User;
+import com.innowise.userservice.repository.UserRepository;
+import com.innowise.userservice.specifications.UserSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import user_service.user_service.dto.UserRequestDto;
-import user_service.user_service.dto.UserResponseDto;
-import user_service.user_service.mapper.UserMapper;
-import user_service.user_service.model.User;
-import user_service.user_service.repository.UserRepository;
-import user_service.user_service.specifications.UserSpecification;
+import com.innowise.userservice.dto.UserRequestDto;
+import com.innowise.userservice.dto.UserResponseDto;
+import com.innowise.userservice.mapper.UserMapper;
+
+
 
 import java.util.Optional;
 

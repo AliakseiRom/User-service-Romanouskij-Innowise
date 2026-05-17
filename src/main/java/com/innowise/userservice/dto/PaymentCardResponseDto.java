@@ -1,4 +1,4 @@
-package user_service.user_service.dto;
+package com.innowise.userservice.dto;
 
 import lombok.Data;
 
