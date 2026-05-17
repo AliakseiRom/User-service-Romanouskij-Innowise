@@ -1,4 +1,4 @@
-package user_service.user_service.integration;
+package com.innowise.userservice.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

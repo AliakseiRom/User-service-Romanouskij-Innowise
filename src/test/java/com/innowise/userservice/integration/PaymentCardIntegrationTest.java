@@ -1,6 +1,8 @@
-package user_service.user_service.integration;
+package com.innowise.userservice.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.innowise.userservice.dto.PaymentCardResponseDto;
+import com.innowise.userservice.dto.UserResponseDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import user_service.user_service.dto.PaymentCardResponseDto;
-import user_service.user_service.dto.UserResponseDto;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @Testcontainers
