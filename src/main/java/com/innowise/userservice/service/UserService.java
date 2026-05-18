@@ -30,7 +30,7 @@ public class UserService {
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         User user = userMapper.toEntity(userRequestDto);
 
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserWithEmailAlreadyExists("User with email " +
                     user.getEmail() +
                     " already exists"
@@ -72,25 +72,33 @@ public class UserService {
     @Transactional
     @CachePut(value = "users", key = "#id")
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isEmpty()) {
-            throw new EntityNotFoundException("User with id " + id + " not found");
-        }
-        User user = userMapper.toEntity(userRequestDto);
 
-        User userToUpdate = userOptional.get();
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new UserWithEmailAlreadyExists("User with email " +
-                    user.getEmail() +
-                    " already exists"
+        User userToUpdate = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "User with id " + id + " not found"
+                        )
+                );
+
+        Optional<User> existingUser =
+                userRepository.findByEmail(userRequestDto.getEmail());
+
+        if (existingUser.isPresent()
+                && !existingUser.get().getId().equals(id)) {
+
+            throw new UserWithEmailAlreadyExists(
+                    "User with email " +
+                            userRequestDto.getEmail() +
+                            " already exists"
             );
         }
-        userToUpdate.setName(user.getName());
-        userToUpdate.setSurname(user.getSurname());
-        userToUpdate.setBirthDate(user.getBirthDate());
-        userToUpdate.setEmail(user.getEmail());
-        return userMapper.toDto(userRepository.save(userToUpdate));
 
+        userToUpdate.setName(userRequestDto.getName());
+        userToUpdate.setSurname(userRequestDto.getSurname());
+        userToUpdate.setBirthDate(userRequestDto.getBirthDate());
+        userToUpdate.setEmail(userRequestDto.getEmail());
+
+        return userMapper.toDto(userRepository.save(userToUpdate));
     }
 
     @Transactional
