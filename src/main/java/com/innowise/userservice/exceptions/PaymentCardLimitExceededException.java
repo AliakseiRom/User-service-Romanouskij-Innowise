@@ -1,4 +1,4 @@
-package user_service.user_service.exceptions;
+package com.innowise.userservice.exceptions;
 
 public class PaymentCardLimitExceededException extends CommonException {
     public PaymentCardLimitExceededException(String message) {

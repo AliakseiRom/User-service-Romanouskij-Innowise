@@ -1,4 +1,4 @@
-package user_service.user_service.exceptions;
+package com.innowise.userservice.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;

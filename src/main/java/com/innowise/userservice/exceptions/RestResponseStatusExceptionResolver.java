@@ -1,4 +1,4 @@
-package user_service.user_service.exceptions;
+package com.innowise.userservice.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

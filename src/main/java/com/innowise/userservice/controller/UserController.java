@@ -1,14 +1,15 @@
-package user_service.user_service.controller;
+package com.innowise.userservice.controller;
 
+import com.innowise.userservice.dto.UserRequestDto;
+import com.innowise.userservice.dto.UserResponseDto;
+import com.innowise.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import user_service.user_service.dto.UserRequestDto;
-import user_service.user_service.dto.UserResponseDto;
-import user_service.user_service.service.UserService;
+
 
 @RestController
 @RequiredArgsConstructor

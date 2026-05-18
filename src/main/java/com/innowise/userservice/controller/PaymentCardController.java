@@ -1,14 +1,14 @@
-package user_service.user_service.controller;
+package com.innowise.userservice.controller;
 
+import com.innowise.userservice.dto.PaymentCardRequestDto;
+import com.innowise.userservice.dto.PaymentCardResponseDto;
+import com.innowise.userservice.service.PaymentCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import user_service.user_service.dto.PaymentCardRequestDto;
-import user_service.user_service.dto.PaymentCardResponseDto;
-import user_service.user_service.service.PaymentCardService;
 
 @RestController
 @RequiredArgsConstructor

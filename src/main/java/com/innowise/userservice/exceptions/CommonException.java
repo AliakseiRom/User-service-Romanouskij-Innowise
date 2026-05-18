@@ -1,4 +1,4 @@
-package user_service.user_service.exceptions;
+package com.innowise.userservice.exceptions;
 
 public class CommonException extends RuntimeException {
 
