@@ -168,6 +168,9 @@ class PaymentCardServiceTest {
 
         Pageable pageable = PageRequest.of(0, 5);
 
+        User user = new User();
+        user.setId(1L);
+
         PaymentCard paymentCard = new PaymentCard();
         paymentCard.setId(1L);
 
@@ -178,6 +181,9 @@ class PaymentCardServiceTest {
                 new PaymentCardResponseDto();
 
         responseDto.setId(1L);
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(user));
 
         when(paymentCardRepository.findByUserId(1L, pageable))
                 .thenReturn(page);
@@ -245,6 +251,12 @@ class PaymentCardServiceTest {
     void shouldDeleteCard() {
 
         Long cardId = 1L;
+
+        PaymentCard paymentCard = new PaymentCard();
+        paymentCard.setId(cardId);
+
+        when(paymentCardRepository.findById(cardId))
+                .thenReturn(Optional.of(paymentCard));
 
         paymentCardService.deleteCard(cardId);
 

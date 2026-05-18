@@ -141,9 +141,6 @@ class UserServiceTest {
         User existingUser = new User();
         existingUser.setId(userId);
 
-        User mappedUser = new User();
-        mappedUser.setName("Updated");
-
         UserResponseDto responseDto =
                 new UserResponseDto();
 
@@ -151,9 +148,6 @@ class UserServiceTest {
 
         when(userRepository.findById(userId))
                 .thenReturn(Optional.of(existingUser));
-
-        when(userMapper.toEntity(requestDto))
-                .thenReturn(mappedUser);
 
         when(userRepository.save(existingUser))
                 .thenReturn(existingUser);
@@ -228,6 +222,12 @@ class UserServiceTest {
     void shouldDeleteUser() {
 
         Long userId = 1L;
+
+        User user = new User();
+        user.setId(userId);
+
+        when(userRepository.findById(userId))
+                .thenReturn(Optional.of(user));
 
         userService.deleteUser(userId);
 
