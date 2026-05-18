@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 import com.innowise.userservice.dto.PaymentCardRequestDto;
 import com.innowise.userservice.dto.PaymentCardResponseDto;
 import com.innowise.userservice.mapper.PaymentCardMapper;
-
-
-
 import java.util.Optional;
 
 @Service
@@ -46,7 +43,7 @@ public class PaymentCardService {
         Optional<PaymentCard> paymentCard = paymentCardRepository.findById(id);
 
         if(paymentCard.isEmpty()) {
-            throw new EntityNotFoundException("Payment card with id " + " not found");
+            throw new EntityNotFoundException("Payment card with id " + id + " not found");
         }
 
         return paymentCardMapper.toDto(paymentCard.get());
@@ -81,18 +78,14 @@ public class PaymentCardService {
             PaymentCardRequestDto dto
     ) {
 
-        Optional<PaymentCard> cardOptional = paymentCardRepository.findById(id);
-        if (cardOptional.isEmpty()) {
-            throw new EntityNotFoundException("Payment card with id " + id + " not found");
-        }
-        PaymentCard card = paymentCardMapper.toEntity(dto);
+        PaymentCard cardToUpdate = paymentCardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Payment card with id " + id + " not found"));
 
-        PaymentCard cardToUpdate = cardOptional.get();
-        cardToUpdate.setNumber(dto.getNumber());
-        cardToUpdate.setHolder(dto.getHolder());
-        cardToUpdate.setExpirationDate(dto.getExpirationDate());
-        cardToUpdate.setActive(dto.isActive());
-        return paymentCardMapper.toDto(cardToUpdate);
+        paymentCardMapper.updateEntityFromDto(dto, cardToUpdate);
+
+        PaymentCard saved = paymentCardRepository.save(cardToUpdate);
+
+        return paymentCardMapper.toDto(saved);
 
     }
 

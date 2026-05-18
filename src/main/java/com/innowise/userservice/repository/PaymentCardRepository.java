@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.innowise.userservice.model.PaymentCard;
 
-import java.util.List;
-
 @Repository
 public interface PaymentCardRepository extends JpaRepository<PaymentCard, Long> {
 
