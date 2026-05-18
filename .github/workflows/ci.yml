@@ -27,7 +27,7 @@ jobs:
       - name: SonarQube
         run: mvn clean verify sonar:sonar \
           -Dsonar.projectKey=AliakseiRom_User-service-Romanouskij-Innowise \
-          -Dsonar.organization=AliakseiRom \
+          -Dsonar.organization=aliakseirom \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
 
