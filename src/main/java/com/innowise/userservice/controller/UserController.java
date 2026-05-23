@@ -1,5 +1,7 @@
 package com.innowise.userservice.controller;
 
+import com.innowise.userservice.dto.CreateUserRequest;
+import com.innowise.userservice.dto.CreateUserResponse;
 import com.innowise.userservice.dto.UserRequestDto;
 import com.innowise.userservice.dto.UserResponseDto;
 import com.innowise.userservice.service.UserService;
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -67,5 +68,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/internal")
+    public ResponseEntity<CreateUserResponse> createInternalUser(
+            @RequestBody CreateUserRequest request
+    ) {
+
+        return new ResponseEntity<>(
+                userService.createInternalUser(request),
+                HttpStatus.CREATED
+        );
     }
 }

@@ -1,5 +1,7 @@
 package com.innowise.userservice.service;
 
+import com.innowise.userservice.dto.CreateUserRequest;
+import com.innowise.userservice.dto.CreateUserResponse;
 import com.innowise.userservice.dto.UserRequestDto;
 import com.innowise.userservice.dto.UserResponseDto;
 import com.innowise.userservice.exceptions.*;
@@ -134,5 +136,21 @@ public class UserService {
             throw new EntityNotFoundException("User with id " + id + " not found");
         }
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public CreateUserResponse createInternalUser(CreateUserRequest request) {
+
+        User user = new User();
+
+        user.setName(request.getName());
+        user.setSurname(request.getSurname());
+        user.setBirthDate(request.getBirthDate());
+        user.setEmail(request.getEmail());
+        user.setActive(true);
+
+        User savedUser = userRepository.save(user);
+
+        return new CreateUserResponse(savedUser.getId());
     }
 }
