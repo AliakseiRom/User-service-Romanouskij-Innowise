@@ -1,4 +1,4 @@
-package user_service.user_service.security;
+package com.innowise.userservice.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

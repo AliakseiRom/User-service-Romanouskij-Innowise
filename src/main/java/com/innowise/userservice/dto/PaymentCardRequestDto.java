@@ -18,7 +18,6 @@ public class PaymentCardRequestDto {
     @NotNull
     private LocalDate expirationDate;
 
-    @NotNull
     private Long userId;
 
     private boolean active;

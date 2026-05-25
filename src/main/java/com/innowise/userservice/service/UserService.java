@@ -8,6 +8,8 @@ import com.innowise.userservice.exceptions.*;
 import com.innowise.userservice.mapper.UserMapper;
 import com.innowise.userservice.model.User;
 import com.innowise.userservice.repository.UserRepository;
+import com.innowise.userservice.security.JwtUser;
+import com.innowise.userservice.security.SecurityUtils;
 import com.innowise.userservice.specifications.UserSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,6 +48,15 @@ public class UserService {
 
     @Cacheable(value = "users", key = "#id")
     public UserResponseDto getUserById(Long id) {
+        JwtUser currentUser = SecurityUtils.getCurrentUser();
+
+        boolean isAdmin = currentUser.getRole().equals("ADMIN");
+        boolean isOwner = currentUser.getUserId().equals(id);
+
+        if (!isAdmin && !isOwner) {
+            throw new AccessDeniedException("Access denied");
+        }
+
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new EntityNotFoundException("User with id " + id + " not found");
@@ -74,6 +86,14 @@ public class UserService {
     @Transactional
     @CachePut(value = "users", key = "#id")
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
+        JwtUser currentUser = SecurityUtils.getCurrentUser();
+
+        boolean isAdmin = currentUser.getRole().equals("ADMIN");
+        boolean isOwner = currentUser.getUserId().equals(id);
+
+        if (!isAdmin && !isOwner) {
+            throw new AccessDeniedException("Access denied");
+        }
 
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(() ->

@@ -1,4 +1,4 @@
-package user_service.user_service.security;
+package com.innowise.userservice.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,12 +42,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
+        Long userId = jwtService.extractUserId(token);
         String login = jwtService.extractLogin(token);
         String role = jwtService.extractRole(token);
 
+        JwtUser jwtUser = new JwtUser(
+                userId,
+                login,
+                role
+        );
+
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
-                        login,
+                        jwtUser,
                         null,
                         List.of(new SimpleGrantedAuthority("ROLE_" + role))
                 );

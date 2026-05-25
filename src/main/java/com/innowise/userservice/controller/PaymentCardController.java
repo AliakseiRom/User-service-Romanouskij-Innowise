@@ -41,7 +41,7 @@ public class PaymentCardController {
     }
 
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Page<PaymentCardResponseDto>> getPaymentCardsByUserId(
             @PathVariable Long id,
             Pageable pageable
