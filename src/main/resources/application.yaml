@@ -22,3 +22,5 @@ spring:
       port: 6379
   profiles:
     active: local
+jwt:
+  secret: "mySuperSecretKeymySuperSecretKeymySuperSecretKey"
