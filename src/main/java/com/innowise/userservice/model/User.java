@@ -35,6 +35,6 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean active;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PaymentCard> paymentCards = new ArrayList<>();
 }
