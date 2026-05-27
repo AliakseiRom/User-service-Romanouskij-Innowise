@@ -1,5 +1,9 @@
 package com.innowise.userservice.service;
 
+import com.innowise.userservice.dto.UserRequestDto;
+import com.innowise.userservice.dto.UserResponseDto;
+import com.innowise.userservice.exceptions.*;
+import com.innowise.userservice.mapper.UserMapper;
 import com.innowise.userservice.model.User;
 import com.innowise.userservice.repository.UserRepository;
 import com.innowise.userservice.specifications.UserSpecification;
@@ -9,11 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import com.innowise.userservice.dto.UserRequestDto;
-import com.innowise.userservice.dto.UserResponseDto;
-import com.innowise.userservice.mapper.UserMapper;
-
-
 
 import java.util.Optional;
 
@@ -27,12 +26,25 @@ public class UserService {
     @Transactional
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         User user = userMapper.toEntity(userRequestDto);
+
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new UserWithEmailAlreadyExists("User with email " +
+                    user.getEmail() +
+                    " already exists"
+            );
+        }
+
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }
 
     public UserResponseDto getUserById(Long id) {
-        return userMapper.toDto(userRepository.findById(id).orElse(null));
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
+
+        return userMapper.toDto(user.get());
     }
 
     public Page<UserResponseDto> getAllUsers(
@@ -56,47 +68,57 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
         User user = userMapper.toEntity(userRequestDto);
 
-        if (userOptional.isPresent()) {
-            User userToUpdate = userOptional.get();
-            userToUpdate.setName(user.getName());
-            userToUpdate.setSurname(user.getSurname());
-            userToUpdate.setBirthDate(user.getBirthDate());
-            userToUpdate.setEmail(user.getEmail());
-            return userMapper.toDto(userRepository.save(userToUpdate));
+        User userToUpdate = userOptional.get();
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new UserWithEmailAlreadyExists("User with email " +
+                    user.getEmail() +
+                    " already exists"
+            );
         }
+        userToUpdate.setName(user.getName());
+        userToUpdate.setSurname(user.getSurname());
+        userToUpdate.setBirthDate(user.getBirthDate());
+        userToUpdate.setEmail(user.getEmail());
+        return userMapper.toDto(userRepository.save(userToUpdate));
 
-        return null;
     }
 
     @Transactional
     public UserResponseDto activateUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        User user = userOptional.orElse(null);
-        if (user != null) {
-            user.setActive(true);
-            userRepository.save(user);
-            return userMapper.toDto(user);
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
         }
+        User user = userOptional.get();
+        user.setActive(true);
+        userRepository.save(user);
+        return userMapper.toDto(user);
 
-        return null;
     }
 
     @Transactional
     public UserResponseDto deactivateUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        User user = userOptional.orElse(null);
-        if (user != null) {
-            user.setActive(false);
-            userRepository.save(user);
-            return userMapper.toDto(user);
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
         }
-        return null;
+        User user = userOptional.get();
+        user.setActive(false);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     @Transactional
     public void deleteUser(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
         userRepository.deleteById(id);
     }
 }
