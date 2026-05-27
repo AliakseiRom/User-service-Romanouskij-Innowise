@@ -9,6 +9,9 @@ import com.innowise.userservice.repository.UserRepository;
 import com.innowise.userservice.specifications.UserSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,6 +41,7 @@ public class UserService {
         return userMapper.toDto(savedUser);
     }
 
+    @Cacheable(value = "users", key = "#id")
     public UserResponseDto getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
@@ -66,6 +70,7 @@ public class UserService {
     }
 
     @Transactional
+    @CachePut(value = "users", key = "#id")
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
@@ -114,6 +119,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", key = "#id")
     public void deleteUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {

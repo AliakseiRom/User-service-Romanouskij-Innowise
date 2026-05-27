@@ -2,11 +2,12 @@ package com.innowise.userservice.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class PaymentCardResponseDto {
+public class PaymentCardResponseDto implements Serializable {
 
     private Long id;
 
