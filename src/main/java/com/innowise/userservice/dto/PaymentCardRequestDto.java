@@ -15,7 +15,7 @@ public class PaymentCardRequestDto {
     @NotBlank
     private String holder;
 
-    @NotBlank
+    @NotNull
     private LocalDate expirationDate;
 
     @NotNull

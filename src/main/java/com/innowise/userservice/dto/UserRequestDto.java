@@ -2,6 +2,7 @@ package com.innowise.userservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ public class UserRequestDto {
     @NotBlank
     private String surname;
 
-    @NotBlank
+    @NotNull
     private LocalDate birthDate;
 
     @Email
