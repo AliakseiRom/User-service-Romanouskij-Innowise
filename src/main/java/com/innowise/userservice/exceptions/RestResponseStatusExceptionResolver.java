@@ -32,7 +32,7 @@ public class RestResponseStatusExceptionResolver {
     }
 
     @ExceptionHandler(PaymentCardLimitExceededException.class)
-    public ResponseEntity<Object> handlePaymentCardLimitExceededException(UserWithEmailAlreadyExists ex, WebRequest request) {
+    public ResponseEntity<Object> handlePaymentCardLimitExceededException(PaymentCardLimitExceededException ex, WebRequest request) {
         ErrorDetails errorDetails =
                 new ErrorDetails(
                         HttpStatus.BAD_REQUEST.value(),
