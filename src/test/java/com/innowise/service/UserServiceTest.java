@@ -1,5 +1,11 @@
-package user_service.user_service.service;
+package com.innowise.service;
 
+import com.innowise.userservice.dto.UserRequestDto;
+import com.innowise.userservice.dto.UserResponseDto;
+import com.innowise.userservice.mapper.UserMapper;
+import com.innowise.userservice.model.User;
+import com.innowise.userservice.repository.UserRepository;
+import com.innowise.userservice.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -7,11 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
-import user_service.user_service.dto.UserRequestDto;
-import user_service.user_service.dto.UserResponseDto;
-import user_service.user_service.mapper.UserMapper;
-import user_service.user_service.model.User;
-import user_service.user_service.repository.UserRepository;
+
 
 import java.time.LocalDate;
 import java.util.List;
