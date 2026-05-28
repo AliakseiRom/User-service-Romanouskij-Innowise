@@ -41,4 +41,23 @@ public class RestResponseStatusExceptionResolver {
                 );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDenied(
+            AccessDeniedException ex,
+            WebRequest request
+    ) {
+
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.FORBIDDEN.value(),
+                        ex.getMessage(),
+                        request.getDescription(false)
+                );
+
+        return new ResponseEntity<>(
+                errorDetails,
+                HttpStatus.FORBIDDEN
+        );
+    }
 }

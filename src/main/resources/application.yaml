@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: user-service
@@ -19,3 +22,5 @@ spring:
       port: 6379
   profiles:
     active: local
+jwt:
+  secret: "mySuperSecretKeymySuperSecretKeymySuperSecretKey"
