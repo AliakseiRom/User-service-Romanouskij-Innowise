@@ -34,6 +34,11 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam String email) {
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<UserResponseDto>> getAllUsers(

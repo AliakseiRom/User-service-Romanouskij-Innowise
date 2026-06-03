@@ -173,4 +173,11 @@ public class UserService {
 
         return new CreateUserResponse(savedUser.getId());
     }
+
+    public UserResponseDto getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with email " + email + " not found"));
+
+        return userMapper.toDto(user);
+    }
 }
