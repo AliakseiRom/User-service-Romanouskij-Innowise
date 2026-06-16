@@ -161,6 +161,12 @@ public class UserService {
     @Transactional
     public CreateUserResponse createInternalUser(CreateUserRequest request) {
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new UserWithEmailAlreadyExists(
+                    "User with email " + request.getEmail() + " already exists"
+            );
+        }
+
         User user = new User();
 
         user.setName(request.getName());
@@ -179,5 +185,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with email " + email + " not found"));
 
         return userMapper.toDto(user);
+    }
+
+    @Transactional
+    public void rollbackUserCreation(String email) {
+        userRepository.findByEmail(email)
+                .ifPresent(userRepository::delete);
     }
 }
