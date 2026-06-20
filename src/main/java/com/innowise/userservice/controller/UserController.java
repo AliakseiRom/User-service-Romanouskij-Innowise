@@ -93,4 +93,10 @@ public class UserController {
                 HttpStatus.CREATED
         );
     }
+
+    @DeleteMapping("/internal")
+    public ResponseEntity<Void> rollbackUserCreation(@RequestParam String email) {
+        userService.rollbackUserCreation(email);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
