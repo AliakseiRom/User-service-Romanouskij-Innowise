@@ -33,7 +33,12 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/internal", "/user/email").permitAll()
+                        .requestMatchers(
+                                "/user/internal",
+                                "/user/email",
+                                "/actuator/**",
+                                "/actuator/health/**"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/internal").permitAll()
                         .anyRequest().authenticated()
                 )

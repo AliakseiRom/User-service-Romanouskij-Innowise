@@ -18,9 +18,20 @@ spring:
         dialect: "org.hibernate.dialect.PostgreSQLDialect"
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
   profiles:
     active: local
 jwt:
   secret: "mySuperSecretKeymySuperSecretKeymySuperSecretKey"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
